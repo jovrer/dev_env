@@ -42,13 +42,13 @@ if [ -d $curArchiveConfDir ];then
         local fileExist=0
         if [ $ARCH_FILE ];then            
             if [ -f "$curArchiveSrcDir/$ARCH_FILE" ];then
-                checkSign "$curArchiveSrcDir/$ARCH_FILE" "$ARCH_FILE_SIGN"
+                checkSign "$curArchiveSrcDir/$ARCH_FILE" "$ARCH_FILE_SIGN"                
                 if [ $? == 1 ];then
                     fileExist=1
                 fi
             fi
-
-            if [ $fileExist!=1 ];then
+            
+            if [ $fileExist != 1 ];then
                 if [ -f "$dirArchive/$ARCH_FILE" ];then
                     checkSign "$dirArchive/$ARCH_FILE" "$ARCH_FILE_SIGN"
                     if [ $? == 1 ];then
@@ -56,11 +56,13 @@ if [ -d $curArchiveConfDir ];then
                     fi
                 fi
 
-                if [ $fileExist!=1 ];then
-                    rm -rf "$dirArchive/*"
+                if [ $fileExist != 1 ];then
+                    rm -rvf "$dirArchive/*"
+                    echo "rm -rvf $dirArchive/*"
+
                     if [ $ARCH_DOWN_URL ];then
                         logOk "downloading $ARCH_DOWN_URL to $curArchiveSrcDir/ "
-                        wget -P "$curArchiveSrcDir/" $ARCH_DOWN_URL
+                        wget -P "$dirArchive/" $ARCH_DOWN_URL
                         logOk "download end "
                     fi
                 else                    
@@ -68,7 +70,9 @@ if [ -d $curArchiveConfDir ];then
                 fi
                 
                 if [ -f "$dirArchive/$ARCH_FILE" ];then
-                    rm -rf "$curArchiveSrcDir/*"                    
+                    rm -rvf "$curArchiveSrcDir/*"
+                    echo "rm -rvf $curArchiveSrcDir/*"
+
                     logOk "copying $dirArchive/$ARCH_FILE to $curArchiveSrcDir/ "
                     cp "$dirArchive/$ARCH_FILE" "$curArchiveSrcDir/"
                     logOk "copy end "

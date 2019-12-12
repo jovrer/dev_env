@@ -34,12 +34,12 @@ checkSign() {
 
         if [ -f $filePath ];then
             if [ $fileSign != "" ];then
-                md5sum $filePath
-                if [ $? == $fileSign ];then
+                local signGen=`md5sum $filePath | cut -d " " -f1`                             
+                if [ $signGen == $fileSign ];then                    
                     return 1
                 else
                     logErr "err: $filePath has wrong sign"
-                fi
+                fi                 
             else
                 logErr 'param file sign is empty'        
             fi    
