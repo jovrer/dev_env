@@ -20,7 +20,6 @@ setupEnv() {
 }
 
 
-
 setupEnv
 
 cd $JO_BASEROOT
@@ -28,4 +27,12 @@ cd $JO_BASEROOT
 . $JO_SH'/common.sh'
 . $JO_SH'/menu.sh'
 
-menuModShow
+checkDockerEnv
+
+if [ $? == 1 ];then
+    menuModShow
+else
+    logErr "err:docker env is not usable"
+    haltApp
+fi
+
