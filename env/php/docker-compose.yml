@@ -1,0 +1,55 @@
+version: "2"
+services:
+  nginx:    
+    container_name: 'nginx'
+    image: nginx_a  
+    env_file:
+      - common.env
+    ports: 
+      - 80:80
+    volumes:
+      - ../../:/data/wwwroot
+      - ./conf/nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+      - ./conf/nginx/vhosts:/usr/local/nginx/conf/vhosts
+    networks:
+      - net-inner    
+  php:
+    container_name: 'php'
+    image: php_a
+    ports:
+      - 9321:9005
+    volumes:
+      - ../../:/data/wwwroot
+    networks:
+      - net-inner
+  redis:
+    container_name: 'redis'
+    image: redis_a
+    ports:
+      - 9320:6379
+    volumes:
+      - ../../:/data/wwwroot
+    networks:
+      - net-inner
+
+  # mysql:
+  #   image: mysql_a
+  #   ports:
+  #     - 12002
+  # volumes:
+  #     - ./conf:/data/wwwwroot
+  #   networks:
+  #     - net-inner
+  # mariadb:
+  #   image: mariadb_a
+  #   ports:
+  #     - 12002
+  # volumes:
+  #     - ./conf:/data/wwwwroot
+  #   networks:
+  #     - net-inner
+networks:
+  net-inner:
+    driver: bridge    
+  
+

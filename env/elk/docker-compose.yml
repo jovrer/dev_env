@@ -1,0 +1,28 @@
+version: "2"
+services:
+  logstash:
+    image: logstash_a
+    ports: 
+      - 12000
+    networks:
+      - net-inner
+    
+  # kibana:
+  #   image: kibana_a
+  #   ports:
+  #     - 12001:12001
+  #   networks:
+  #     - net-inner
+
+  # elas:
+  #   image: elas_a
+  #   privileged: true
+  #   ports:
+  #     - 12002    
+  #   networks:
+  #     - net-inner
+networks:
+  net-inner:
+    driver: bridge
+  
+

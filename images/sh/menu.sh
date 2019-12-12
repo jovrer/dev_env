@@ -29,27 +29,48 @@ function menuMod {
     menuStr=$menuStr"\tEnter option: "
 
     echo -e $menuStr    
-    read -n 1 option    
+    read -n 2 option    
 }
 
 function menuModShow {
     while [ 1 ]
     do
         menuMod
+        # echo $modsLen
         case $option in
             0)
-                haltApp ;;
+                haltApp 
+                ;;
             [1-$modsLen])
+                echo "ddd"
+                exit
                 menuVersionShow ${mods[$[$option-1]]}
                 break           
-            ;;
-            *)            
-                clear
+                ;;
+            *)  
+                echo $option
                 logWarn "Sorry, wrong selection"        
-            ;;
+                ;;
         esac        
     done
 }
+
+
+# *****************************************************************
+# **************  choose a version to install *********************
+# ********                                                *********
+# ********    1.ddddddddddddddd                           *********
+# ********    1.ddddddddddddddd                           *********
+# ********    1.ddddddddddddddd                           *********
+# ********    1.ddddddddddddddd                           *********
+# ********    1.ddddddddddddddd                           *********
+# ********    1.ddddddddddddddd                           *********
+# ********    1.ddddddddddddddd                           *********
+# ********    1.ddddddddddddddd                           *********
+# ********    1.ddddddddddddddd                           *********
+# ********    1.ddddddddddddddd                           *********
+# *****************************************************************
+# *****************************************************************
 
 
 function menuVersion {
@@ -61,9 +82,9 @@ function menuVersion {
     cd $verBaseDir
     vers=(`ls -l | egrep "^d"| awk 'BEGIN{ORS=" "} {print $NF}'`)
     versLen=${#vers[@]}
-    
+
     local menuStr="\tchoose a version to install\n\n"
-    menuStr=$menuStr"\t------------------------------\n\n"
+    menuStr=$menuStr"\t********************************\n\n"
 
     local verIndex=0
     for((; verIndex<$versLen;verIndex++))
@@ -77,7 +98,7 @@ function menuVersion {
     menuStr=$menuStr"\tEnter option: "
 
     echo -e $menuStr
-    read -n 1 option
+    read -n 2 option
 }
 
 function menuVersionShow {
@@ -86,6 +107,7 @@ function menuVersionShow {
         menuVersion $1
         local verBaseDir="$JO_SCRIPT/$mod"
         
+
         case $option in
             0)
                 menuModShow
